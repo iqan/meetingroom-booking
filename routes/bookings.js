@@ -16,7 +16,7 @@ router.get('/', (req, res, next) => {
     });
 });
 
-router.get('/:id', (req, res, next) => {
+router.get('/:id', passport.authenticate('jwt', { session: false }), (req, res, next) => {
     var id = req.params.id;
     Booking.getById(id, (err, booking) => {
         if(err){
@@ -29,7 +29,7 @@ router.get('/:id', (req, res, next) => {
     });
 });
 
-router.post('/', (req, res, next) => {
+router.post('/', passport.authenticate('jwt', { session: false }), (req, res, next) => {
     var newBooking = new Booking({
         name: req.body.name,
         email: req.body.email,
@@ -64,7 +64,7 @@ router.post('/', (req, res, next) => {
     }
 });
 
-router.put('/:id', (req, res, next) => {
+router.put('/:id', passport.authenticate('jwt', { session: false }),(req, res, next) => {
     var id = req.params.id;
     var newBooking = new Booking({
         _id: id,
@@ -111,7 +111,7 @@ router.put('/:id', (req, res, next) => {
     }
 });
 
-router.delete('/:id', (req, res, next) => {
+router.delete('/:id', passport.authenticate('jwt', { session: false }),(req, res, next) => {
     var id = req.params.id;
     Booking.deleteBooking(id, (err) => {
         if(err){
