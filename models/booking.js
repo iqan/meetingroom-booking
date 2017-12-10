@@ -49,6 +49,21 @@ module.exports.addBooking = function(newBooking, callback){
     newBooking.save(callback);
 }
 
+module.exports.updateBooking = function(id, newBooking, callback){
+    Booking.findById(id, (err, booking) => {
+        booking.subject = newBooking.subject;
+        booking.room = newBooking.room;
+        booking.start = newBooking.start;
+        booking.end = newBooking.end;
+
+        booking.save(callback);
+    });
+}
+
+module.exports.deleteBooking = function(id, callback){
+    Booking.findByIdAndRemove(id, callback);
+}
+
 module.exports.validateBooking = function(newBooking, callback){
     var oldBooking;
     
@@ -59,6 +74,7 @@ module.exports.validateBooking = function(newBooking, callback){
 
         if(bookings.length > 0){
             for(var i = 0; i < bookings.length; i++){
+                
                 // time of first timespan
                 var x = bookings[i].start.getTime();
                 var y = bookings[i].end.getTime();
@@ -67,7 +83,9 @@ module.exports.validateBooking = function(newBooking, callback){
                 var a = newBooking.start.getTime();
                 var b = newBooking.end.getTime();
 
-                if (Math.min(x, y) < Math.max(a, b) && Math.max(x, y) > Math.min(a, b)) {
+                var isSame = String(bookings[i]._id) === String(newBooking._id);
+
+                if (Math.min(x, y) < Math.max(a, b) && Math.max(x, y) > Math.min(a, b) && !isSame) {
                     oldBooking = bookings[i];
                     break;
                 }
