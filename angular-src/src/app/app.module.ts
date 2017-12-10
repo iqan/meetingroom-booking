@@ -16,6 +16,7 @@ import { LogoutComponent } from './componenets/logout/logout.component';
 
 import { ValidationService } from './services/validation.service';
 import { AuthService } from './services/auth.service';
+import { BookingService } from './services/booking.service';
 import { AuthGuard } from './guards/auth.guard';
 
 import { FlashMessagesModule } from 'angular2-flash-messages';
@@ -51,7 +52,7 @@ var appRoutes: Routes = [
     FlashMessagesModule.forRoot()
   ],
   providers: [
-    ValidationService, AuthService, AuthGuard
+    ValidationService, AuthService, AuthGuard, BookingService
   ],
   bootstrap: [AppComponent]
 })
