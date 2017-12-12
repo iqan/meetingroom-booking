@@ -20,6 +20,7 @@ import { BookingService } from './services/booking.service';
 import { AuthGuard } from './guards/auth.guard';
 
 import { FlashMessagesModule } from 'angular2-flash-messages';
+import { DropdownModule } from "ngx-dropdown";
 
 var appRoutes: Routes = [
   { path: '', component: HomeComponent },
@@ -49,7 +50,8 @@ var appRoutes: Routes = [
     FormsModule,
     HttpModule,
     RouterModule.forRoot(appRoutes),
-    FlashMessagesModule.forRoot()
+    FlashMessagesModule.forRoot(),
+    DropdownModule
   ],
   providers: [
     ValidationService, AuthService, AuthGuard, BookingService

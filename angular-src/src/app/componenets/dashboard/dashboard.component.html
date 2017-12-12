@@ -1,28 +1,97 @@
-<table class="table table-striped">
-  <thead>
-    <tr>
-      <th>#</th>
-      <th>Date</th>
-      <th>Timing</th>
-      <th>Subject</th>
-      <th>Room</th>      
-      <th>Email</th>
-      <th>Actions</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr *ngFor="let booking of bookings; let i = index;">
-      <th scope="row">{{ i+1 }}</th>
-      <td>{{ booking.date }}</td>      
-      <td>{{ booking.time }}</td>      
-      <td>{{ booking.subject }}</td>
-      <td>{{ booking.room }}</td>
-      <td>{{ booking.email }}</td>
-      <td>
-        <div>
-          <button class="btn bt-danger btn-md"><i class="fa fa-remove"></i></button>
-        </div>
-      </td>
-    </tr>
-  </tbody>
-</table>
+<div>
+  <h2 class="text-center">Bookings</h2>
+  <div>
+    Date:
+    <input [ngModel]="bookingDate | date:'yyyy-MM-dd'" (ngModelChange)="bookingDate = $event; onCurrentChange($event);" type="date" name="bookingDate"/>
+  </div>
+
+  <hr/>
+  
+  <div>
+    <button class="btn btn-outline-success my-2 my-sm-0" data-toggle="modal" data-target="#myModal">
+      Book Room
+    </button>
+  </div>
+
+  <br/>
+  
+  <table class="table table-striped">
+    <thead>
+      <tr>
+        <th>#</th>
+        <th>Date</th>
+        <th>Timing</th>
+        <th>Subject</th>
+        <th>Room</th>      
+        <th>Email</th>
+        <th>Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngIf="bookings.length == 0">
+        <td colspan="7">No booking done yet.</td>
+      </tr>
+      <tr *ngFor="let booking of bookings; let i = index;">
+        <th scope="row">{{ i+1 }}</th>
+        <td>{{ booking.date }}</td>      
+        <td>{{ booking.time }}</td>      
+        <td>{{ booking.subject }}</td>
+        <td>{{ booking.room }}</td>
+        <td>{{ booking.email }}</td>
+        <td>
+          <div>
+            <button class="btn btn-warning btn-sm">
+              <i class="fa fa-edit" aria-hidden="true"></i>
+            </button>
+            <button class="btn btn-danger btn-sm">
+              <i class="fa fa-trash" aria-hidden="true"></i>
+            </button>
+          </div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- Modal for Add Booking -->
+<!-- Modal -->
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title" id="myModalLabel">Book Meeting Room</h4>
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+      </div>
+      <div class="modal-body">
+          <flash-messages></flash-messages>
+          <form (submit)="onAdd()">
+            <label for="inputName" class="sr-only">Name</label>
+            <input type="name" id="inputName" name="name" [(ngModel)]="name" class="form-control" placeholder="Name (optional)" autofocus>
+            <label for="inputEmail" class="sr-only">Email address</label>
+            <input type="email" id="inputEmail" name="email" [(ngModel)]="email" class="form-control" placeholder="Email address" required>
+            <label for="inputName" class="sr-only">Room</label>
+            <select class="form-control" (change)="selectRoom($event.target.value)">
+              <option value="select">Room</option>
+              <option *ngFor="let value of rooms" value={{value}}>{{value}}</option>
+            </select>
+            <label for="inputName" class="sr-only">Subject</label>
+            <input type="name" id="inputSubject" name="subject" [(ngModel)]="subject" class="form-control" placeholder="Subject" autofocus>
+            <label for="inputName" class="sr-only">Start Time</label>
+            <select class="form-control" (change)="selectStart($event.target.value)">
+              <option value="select">Start Time</option>
+              <option *ngFor="let value of timings" value={{value}}>{{value}}</option>
+            </select>
+            <label for="inputName" class="sr-only">End Time</label>
+            <select class="form-control" (change)="selectEnd($event.target.value)">
+              <option value="select">End Time</option>
+              <option *ngFor="let value of timings" value={{value}}>{{value}}</option>
+            </select>
+          </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-success" (click)="onAdd()">Save</button>
+      </div>
+    </div>
+  </div>
+</div>

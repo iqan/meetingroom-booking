@@ -14,4 +14,12 @@ export class BookingService {
     return this.http.get('http://localhost:3000/bookings/', { headers: headers })
       .map(res => res.json());
   }
+
+  addBooking(token, booking){
+    var headers = new Headers();
+    headers.append('Authorization', 'bearer ' + token);
+
+    return this.http.post('http://localhost:3000/bookings/', booking, { headers: headers })
+      .map(res => res.json());
+  }
 }
