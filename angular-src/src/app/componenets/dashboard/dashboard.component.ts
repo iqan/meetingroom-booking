@@ -57,7 +57,7 @@ export class DashboardComponent implements OnInit {
     this.bookingService.getBookings(token).subscribe(res => {
       if(res.success){
         var bookings = res.data;
-
+        this.bookings = [];
         for(var i = 0; i < bookings.length; i++){
           var start = new Date(bookings[i].start);
           var end = new Date(bookings[i].end);
@@ -129,5 +129,13 @@ export class DashboardComponent implements OnInit {
       err => {
         this.flashMessagesService.show("something went wrong. try again.", { cssClass: 'alert-danger', timeout: 3000 });
       });
+  }
+
+  update(booking){
+    console.log(booking);
+  }
+
+  delete(booking){
+    console.log(booking);
   }
 }

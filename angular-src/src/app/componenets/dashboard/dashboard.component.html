@@ -1,16 +1,11 @@
-<div>
-  <h2 class="text-center">Bookings</h2>
+<div style="padding-top: 20px;">
   <div>
-    Date:
-    <input [ngModel]="bookingDate | date:'yyyy-MM-dd'" (ngModelChange)="bookingDate = $event; onCurrentChange($event);" type="date" name="bookingDate"/>
-  </div>
-
-  <hr/>
-  
-  <div>
-    <button class="btn btn-outline-success my-2 my-sm-0" data-toggle="modal" data-target="#myModal">
+    <button class="btn btn-outline-success my-2 my-sm-0 " data-toggle="modal" data-target="#myModal">
       Book Room
     </button>
+    <input [ngModel]="bookingDate | date:'yyyy-MM-dd'" class="form-control pull-right" style="width: 200px; border: 1px blue solid;"
+      (ngModelChange)="bookingDate = $event; onCurrentChange($event);" type="date" 
+      name="bookingDate"/>
   </div>
 
   <br/>
@@ -39,11 +34,11 @@
         <td>{{ booking.room }}</td>
         <td>{{ booking.email }}</td>
         <td>
-          <div>
-            <button class="btn btn-warning btn-sm">
+          <div *ngIf="booking.email != email">
+            <button [disabled]="booking.email != email" class="btn btn-warning btn-sm" (click)="update(booking)">
               <i class="fa fa-edit" aria-hidden="true"></i>
             </button>
-            <button class="btn btn-danger btn-sm">
+            <button [disabled]="booking.email != email" class="btn btn-danger btn-sm" (click)="delete(booking)">
               <i class="fa fa-trash" aria-hidden="true"></i>
             </button>
           </div>
