@@ -1,51 +1,40 @@
 <div style="padding-top: 20px;">
   <div>
-    <button class="btn btn-outline-success my-2 my-sm-0 " data-toggle="modal" data-target="#myModal">
+    <button class="btn btn-outline-success my-2 my-sm-0" data-toggle="modal" data-target="#myModal">
       Book Room
     </button>
-    <input [ngModel]="bookingDate | date:'yyyy-MM-dd'" class="form-control pull-right" style="width: 200px; border: 1px blue solid;"
+    <input [ngModel]="bookingDate | date:'yyyy-MM-dd'" class="form-control pull-right my-2 my-sm-0" style="width: 200px; border: 1px blue solid;"
       (ngModelChange)="bookingDate = $event; onCurrentChange($event);" type="date" 
       name="bookingDate"/>
   </div>
 
   <br/>
   
-  <table class="table table-striped">
-    <thead>
-      <tr>
-        <th>#</th>
-        <th>Date</th>
-        <th>Timing</th>
-        <th>Subject</th>
-        <th>Room</th>      
-        <th>Email</th>
-        <th>Actions</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr *ngIf="bookings.length == 0">
-        <td colspan="7">No booking done yet.</td>
-      </tr>
-      <tr *ngFor="let booking of bookings; let i = index;">
-        <th scope="row">{{ i+1 }}</th>
-        <td>{{ booking.date }}</td>      
-        <td>{{ booking.time }}</td>      
-        <td>{{ booking.subject }}</td>
-        <td>{{ booking.room }}</td>
-        <td>{{ booking.email }}</td>
-        <td>
-          <div *ngIf="booking.email != email">
-            <button [disabled]="booking.email != email" class="btn btn-warning btn-sm" (click)="update(booking)">
-              <i class="fa fa-edit" aria-hidden="true"></i>
-            </button>
+  <div *ngIf="bookings.length == 0">
+      <div class="card-block">
+          <h4 class="card-title">No bookings done yet.</h4>
+      </div>
+  </div>
+  <div class="row">
+    <div *ngFor="let booking of bookings; let i = index;" class="col-md-3">
+      <div class="card text-center" style="background-color:#d9f1f4;">
+        <div class="card-block">
+          <h4 class="card-title">{{ booking.subject }}</h4>
+          <h6 class="card-subtitle mb-2 text-muted">{{ booking.time }}  <span class="text-warning">{{ booking.room }}</span></h6>
+          <h6 class="card-text">{{ booking.email }}</h6>
+          <div *ngIf="booking.email == email" style="padding: 10px;">
+            <!-- <button [disabled]="booking.email != email" class="btn btn-warning btn-sm" (click)="update(booking)">
+              <i class="fa fa-edit" aria-hidden="true"> Edit</i>
+            </button> -->
             <button [disabled]="booking.email != email" class="btn btn-danger btn-sm" (click)="delete(booking)">
-              <i class="fa fa-trash" aria-hidden="true"></i>
+              <i class="fa fa-trash" aria-hidden="true"> Delete</i>
             </button>
           </div>
-        </td>
-      </tr>
-    </tbody>
-  </table>
+        </div>
+      </div>
+      <br/>
+    </div>
+  </div>
 </div>
 
 <!-- Modal for Add Booking -->

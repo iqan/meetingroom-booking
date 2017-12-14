@@ -21,6 +21,7 @@ import { AuthGuard } from './guards/auth.guard';
 
 import { FlashMessagesModule } from 'angular2-flash-messages';
 import { DropdownModule } from "ngx-dropdown";
+import { BsModalModule } from 'ng2-bs3-modal/ng2-bs3-modal';
 
 var appRoutes: Routes = [
   { path: '', component: HomeComponent },
@@ -51,7 +52,8 @@ var appRoutes: Routes = [
     HttpModule,
     RouterModule.forRoot(appRoutes),
     FlashMessagesModule.forRoot(),
-    DropdownModule
+    DropdownModule,
+    BsModalModule
   ],
   providers: [
     ValidationService, AuthService, AuthGuard, BookingService

@@ -22,4 +22,20 @@ export class BookingService {
     return this.http.post('http://localhost:3000/bookings/', booking, { headers: headers })
       .map(res => res.json());
   }
+
+  updateBooking(token, booking){
+    var headers = new Headers();
+    headers.append('Authorization', 'bearer ' + token);
+
+    return this.http.put('http://localhost:3000/bookings/' + booking._id, booking, { headers: headers })
+      .map(res => res.json());
+  }
+
+  deleteBooking(token, id){
+    var headers = new Headers();
+    headers.append('Authorization', 'bearer ' + token);
+
+    return this.http.delete('http://localhost:3000/bookings/' + id, { headers: headers })
+      .map(res => res.json());
+  }
 }

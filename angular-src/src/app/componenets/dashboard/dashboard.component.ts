@@ -1,9 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { BookingService } from '../../services/booking.service';
 import { AuthService } from '../../services/auth.service';
 import { FlashMessagesService } from 'angular2-flash-messages';
 import { Router } from '@angular/router';
-import { DropdownModule } from "ngx-dropdown";
 
 @Component({
   selector: 'app-dashboard',
@@ -11,6 +10,9 @@ import { DropdownModule } from "ngx-dropdown";
   styleUrls: ['./dashboard.component.css']
 })
 export class DashboardComponent implements OnInit {
+
+  @ViewChild('myModal')
+  modal: ElementRef;
 
   bookings: any[];
   bookingDate: any;
@@ -132,10 +134,38 @@ export class DashboardComponent implements OnInit {
   }
 
   update(booking){
-    console.log(booking);
+    if (this.modal) {
+        this.modal.nativeElement.show();
+    }
+  }
+
+  doUpdate(booking){
+    this.bookingService.updateBooking(this.authService.authToken, booking)
+      .subscribe( res => {
+        if(res.success){
+          this.flashMessagesService.show(res.message, { cssClass: 'alert-success', timeout: 3000 });
+          this.getBookings();
+        }  else {
+          this.flashMessagesService.show(res.message, { cssClass: 'alert-danger', timeout: 3000 });
+        }
+      },
+      err => {
+        this.flashMessagesService.show("something went wrong. try again.", { cssClass: 'alert-danger', timeout: 3000 });
+      });
   }
 
   delete(booking){
-    console.log(booking);
+    this.bookingService.deleteBooking(this.authService.authToken, booking._id)
+      .subscribe( res => {
+        if(res.success){
+          this.flashMessagesService.show(res.message, { cssClass: 'alert-success', timeout: 3000 });
+          this.getBookings();
+        }  else {
+          this.flashMessagesService.show(res.message, { cssClass: 'alert-danger', timeout: 3000 });
+        }
+      },
+      err => {
+        this.flashMessagesService.show("something went wrong. try again.", { cssClass: 'alert-danger', timeout: 3000 });
+      });
   }
 }
