@@ -104,10 +104,11 @@ export class DashboardComponent implements OnInit {
     var e_hour = this.end.substring(0,2);
     var e_min = this.end.substring(3,5);
 
-    var s = new Date(this.bookingDate.getFullYear(), this.bookingDate.getMonth(), this.bookingDate.getDate(),
+    var tempDate = new Date(this.bookingDate);
+    var s = new Date(tempDate.getFullYear(), tempDate.getMonth(), tempDate.getDate(),
         s_hour, s_min);
 
-    var e = new Date(this.bookingDate.getFullYear(), this.bookingDate.getMonth(), this.bookingDate.getDate(),
+    var e = new Date(tempDate.getFullYear(), tempDate.getMonth(), tempDate.getDate(),
       e_hour, e_min);
 
     var newBooking = {

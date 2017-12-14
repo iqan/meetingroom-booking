@@ -11,7 +11,7 @@ export class BookingService {
     var headers = new Headers();
     headers.append('Authorization', 'bearer ' + token);
 
-    return this.http.get('http://localhost:3000/bookings/', { headers: headers })
+    return this.http.get('/bookings/', { headers: headers })
       .map(res => res.json());
   }
 
@@ -19,7 +19,7 @@ export class BookingService {
     var headers = new Headers();
     headers.append('Authorization', 'bearer ' + token);
 
-    return this.http.post('http://localhost:3000/bookings/', booking, { headers: headers })
+    return this.http.post('/bookings/', booking, { headers: headers })
       .map(res => res.json());
   }
 
@@ -27,7 +27,7 @@ export class BookingService {
     var headers = new Headers();
     headers.append('Authorization', 'bearer ' + token);
 
-    return this.http.put('http://localhost:3000/bookings/' + booking._id, booking, { headers: headers })
+    return this.http.put('/bookings/' + booking._id, booking, { headers: headers })
       .map(res => res.json());
   }
 
@@ -35,7 +35,7 @@ export class BookingService {
     var headers = new Headers();
     headers.append('Authorization', 'bearer ' + token);
 
-    return this.http.delete('http://localhost:3000/bookings/' + id, { headers: headers })
+    return this.http.delete('/bookings/' + id, { headers: headers })
       .map(res => res.json());
   }
 }
