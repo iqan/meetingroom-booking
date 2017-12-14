@@ -45,6 +45,7 @@ router.post('/authenticate', (req, res, next) => {
                 if(err) throw err;
                 if(isMatch){
                     var userDetails = {
+                        _id: user._id,
                         name: user.name,
                         email: user.email
                     };
@@ -61,7 +62,6 @@ router.post('/authenticate', (req, res, next) => {
 });
 
 router.get('/profile', passport.authenticate('jwt', { session: false }), (req, res, next) => {
-    console.log(req.user);
     res.json({ user: req.user });
 });
 
