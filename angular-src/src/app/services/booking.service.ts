@@ -5,13 +5,15 @@ import 'rxjs/add/operator/map';
 @Injectable()
 export class BookingService {
 
+  baseAddress = ''; //'http://localhost:3000';
+
   constructor(private http: Http) { }
 
   getBookings(token){
     var headers = new Headers();
     headers.append('Authorization', 'bearer ' + token);
 
-    return this.http.get('/bookings/', { headers: headers })
+    return this.http.get(this.baseAddress + '/bookings/', { headers: headers })
       .map(res => res.json());
   }
 
@@ -19,7 +21,7 @@ export class BookingService {
     var headers = new Headers();
     headers.append('Authorization', 'bearer ' + token);
 
-    return this.http.post('/bookings/', booking, { headers: headers })
+    return this.http.post(this.baseAddress + '/bookings/', booking, { headers: headers })
       .map(res => res.json());
   }
 
@@ -27,7 +29,7 @@ export class BookingService {
     var headers = new Headers();
     headers.append('Authorization', 'bearer ' + token);
 
-    return this.http.put('/bookings/' + booking._id, booking, { headers: headers })
+    return this.http.put(this.baseAddress + '/bookings/' + booking._id, booking, { headers: headers })
       .map(res => res.json());
   }
 
@@ -35,7 +37,7 @@ export class BookingService {
     var headers = new Headers();
     headers.append('Authorization', 'bearer ' + token);
 
-    return this.http.delete('/bookings/' + id, { headers: headers })
+    return this.http.delete(this.baseAddress + '/bookings/' + id, { headers: headers })
       .map(res => res.json());
   }
 }

@@ -1,6 +1,7 @@
 import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { BookingService } from '../../services/booking.service';
 import { AuthService } from '../../services/auth.service';
+import { ValidationService } from '../../services/validation.service';
 import { FlashMessagesService } from 'angular2-flash-messages';
 import { Router } from '@angular/router';
 
@@ -33,6 +34,7 @@ export class DashboardComponent implements OnInit {
     private bookingService: BookingService, 
     private authService: AuthService,
     private flashMessagesService: FlashMessagesService,
+    private validationService : ValidationService,
     private router: Router
   ) { }
 
@@ -99,39 +101,47 @@ export class DashboardComponent implements OnInit {
   }
 
   onAdd(){
-    var s_hour = this.start.substring(0,2);
-    var s_min = this.start.substring(3,5);
-    var e_hour = this.end.substring(0,2);
-    var e_min = this.end.substring(3,5);
 
-    var tempDate = new Date(this.bookingDate);
-    var s = new Date(tempDate.getFullYear(), tempDate.getMonth(), tempDate.getDate(),
-        s_hour, s_min);
+    var errors = this.validationService.validateBooking(this.email, this.subject, this.room, this.start, this.end);
 
-    var e = new Date(tempDate.getFullYear(), tempDate.getMonth(), tempDate.getDate(),
-      e_hour, e_min);
+    if(errors){
+      this.flashMessagesService.show(errors, { cssClass: 'alert-danger', timeout: 3000 });
+      return;
+    } else {
+      var s_hour = this.start.substring(0,2);
+      var s_min = this.start.substring(3,5);
+      var e_hour = this.end.substring(0,2);
+      var e_min = this.end.substring(3,5);
 
-    var newBooking = {
-      name: this.name,
-      email: this.email,
-      subject: this.subject,
-      start: s,
-      end: e,
-      room: this.room
-    };
+      var tempDate = new Date(this.bookingDate);
+      var s = new Date(tempDate.getFullYear(), tempDate.getMonth(), tempDate.getDate(),
+          s_hour, s_min);
 
-    this.bookingService.addBooking(this.authService.authToken, newBooking)
-      .subscribe( res => {
-        if(res.success){
-          this.flashMessagesService.show(res.message, { cssClass: 'alert-success', timeout: 3000 });
-          this.getBookings();
-        }  else {
-          this.flashMessagesService.show(res.message, { cssClass: 'alert-danger', timeout: 3000 });
-        }
-      },
-      err => {
-        this.flashMessagesService.show("something went wrong. try again.", { cssClass: 'alert-danger', timeout: 3000 });
-      });
+      var e = new Date(tempDate.getFullYear(), tempDate.getMonth(), tempDate.getDate(),
+        e_hour, e_min);
+
+      var newBooking = {
+        name: this.name,
+        email: this.email,
+        subject: this.subject,
+        start: s,
+        end: e,
+        room: this.room
+      };
+
+      this.bookingService.addBooking(this.authService.authToken, newBooking)
+        .subscribe( res => {
+          if(res.success){
+            this.flashMessagesService.show(res.message, { cssClass: 'alert-success', timeout: 3000 });
+            this.getBookings();
+          }  else {
+            this.flashMessagesService.show(res.message, { cssClass: 'alert-danger', timeout: 3000 });
+          }
+        },
+        err => {
+          this.flashMessagesService.show("something went wrong. try again.", { cssClass: 'alert-danger', timeout: 3000 });
+        });
+      }
   }
 
   update(booking){

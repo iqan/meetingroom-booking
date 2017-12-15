@@ -30,6 +30,7 @@
               <i class="fa fa-trash" aria-hidden="true"> Delete</i>
             </button>
           </div>
+          <br/>
         </div>
       </div>
       <br/>
@@ -48,25 +49,30 @@
       </div>
       <div class="modal-body">
           <flash-messages></flash-messages>
-          <form (submit)="onAdd()">
+          <form name="form" #form novalidate>
             <label for="inputName" class="sr-only">Name</label>
             <input type="name" id="inputName" name="name" [(ngModel)]="name" class="form-control" placeholder="Name (optional)" autofocus>
+            
             <label for="inputEmail" class="sr-only">Email address</label>
             <input type="email" id="inputEmail" name="email" [(ngModel)]="email" class="form-control" placeholder="Email address" required>
+
             <label for="inputName" class="sr-only">Room</label>
-            <select class="form-control" (change)="selectRoom($event.target.value)">
+            <select class="form-control" (change)="selectRoom($event.target.value)" required>
               <option value="select">Room</option>
               <option *ngFor="let value of rooms" value={{value}}>{{value}}</option>
             </select>
+
             <label for="inputName" class="sr-only">Subject</label>
-            <input type="name" id="inputSubject" name="subject" [(ngModel)]="subject" class="form-control" placeholder="Subject" autofocus>
+            <input type="name" id="inputSubject" name="subject" [(ngModel)]="subject" class="form-control" placeholder="Subject" required>
+
             <label for="inputName" class="sr-only">Start Time</label>
-            <select class="form-control" (change)="selectStart($event.target.value)">
+            <select class="form-control" (change)="selectStart($event.target.value)" required>
               <option value="select">Start Time</option>
               <option *ngFor="let value of timings" value={{value}}>{{value}}</option>
             </select>
+
             <label for="inputName" class="sr-only">End Time</label>
-            <select class="form-control" (change)="selectEnd($event.target.value)">
+            <select class="form-control" (change)="selectEnd($event.target.value)" required>
               <option value="select">End Time</option>
               <option *ngFor="let value of timings" value={{value}}>{{value}}</option>
             </select>

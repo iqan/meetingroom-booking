@@ -84,8 +84,9 @@ module.exports.validateBooking = function(newBooking, callback){
                 var b = newBooking.end.getTime();
 
                 var isSame = String(bookings[i]._id) === String(newBooking._id);
+                var sameRoom = bookings[i].room == newBooking.room;
 
-                if (Math.min(x, y) < Math.max(a, b) && Math.max(x, y) > Math.min(a, b) && !isSame) {
+                if (Math.min(x, y) < Math.max(a, b) && Math.max(x, y) > Math.min(a, b) && !isSame && sameRoom) {
                     oldBooking = bookings[i];
                     break;
                 }
