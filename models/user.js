@@ -40,6 +40,25 @@ module.exports.addUser = function(newUser, callback){
     });
 }
 
+module.exports.updateUser = function(id, updatedUser, callback){
+    User.findById(id, (err, user) => {
+        if(err){
+            throw err;
+        } 
+        if(user) {
+            bcrypt.genSalt(10, (err, salt) => {
+                bcrypt.hash(updatedUser.password, salt, (err, hash) => {
+                    if(err) throw err;
+                    //user.password = hash;
+                    user.name = updatedUser.name;
+                    user.email = updatedUser.email;
+                    user.save(callback);
+                });
+            });
+        }
+    });    
+}
+
 module.exports.comparePassword = function(password, hash, callback){
     bcrypt.genSalt(10, (err, salt) => {
         bcrypt.compare(password, hash, (err, isMatch) => {

@@ -52,24 +52,29 @@
           <form name="form" #form novalidate>
             <label for="inputName" class="sr-only">Name</label>
             <input type="name" id="inputName" name="name" [(ngModel)]="name" class="form-control" placeholder="Name (optional)" autofocus>
+            <div class="padding-bot-5"></div>
             
             <label for="inputEmail" class="sr-only">Email address</label>
             <input type="email" id="inputEmail" name="email" [(ngModel)]="email" class="form-control" placeholder="Email address" required>
+            <div class="padding-bot-5"></div>
 
             <label for="inputName" class="sr-only">Room</label>
             <select class="form-control" (change)="selectRoom($event.target.value)" required>
               <option value="select">Room</option>
               <option *ngFor="let value of rooms" value={{value}}>{{value}}</option>
             </select>
+            <div class="padding-bot-5"></div>
 
             <label for="inputName" class="sr-only">Subject</label>
             <input type="name" id="inputSubject" name="subject" [(ngModel)]="subject" class="form-control" placeholder="Subject" required>
+            <div class="padding-bot-5"></div>
 
             <label for="inputName" class="sr-only">Start Time</label>
             <select class="form-control" (change)="selectStart($event.target.value)" required>
               <option value="select">Start Time</option>
               <option *ngFor="let value of timings" value={{value}}>{{value}}</option>
             </select>
+            <div class="padding-bot-5"></div>
 
             <label for="inputName" class="sr-only">End Time</label>
             <select class="form-control" (change)="selectEnd($event.target.value)" required>

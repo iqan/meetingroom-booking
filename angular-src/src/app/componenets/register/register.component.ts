@@ -27,7 +27,6 @@ export class RegisterComponent implements OnInit {
   }
 
   onRegister(){
-    console.log(this.name);
     var user = {
       name: this.name,
       email: this.email,
@@ -49,6 +48,8 @@ export class RegisterComponent implements OnInit {
       } else {
         this.flashMessagesService.show(data.message, { cssClass: 'alert-danger', timeout: 3000 });
       }
+    }, err => {
+      console.log('an error occured : ' + err);
     });
   }
 

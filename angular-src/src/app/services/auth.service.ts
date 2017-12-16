@@ -20,6 +20,15 @@ export class AuthService {
       .map(res => res.json());
   }
 
+  updateUser(user){
+    var headers = new Headers();
+    headers.append('Content-Type', 'application/json');
+    this.loadToken();
+    headers.append('Authorization', 'bearer ' + this.authToken);
+    return this.http.post(this.baseAddress + '/users/update', user, { headers: headers })
+      .map(res => res.json());
+  }
+
   authenticateUser(user){
     var headers = new Headers();
     headers.append('Content-Type', 'application/json');

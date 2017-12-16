@@ -31,6 +31,46 @@ router.post('/register', (req, res, next) => {
     });
 });
 
+router.post('/update', passport.authenticate('jwt', { session: false }), (req, res, next) => {
+    var newUser = new User({
+        name: req.body.name,
+        email: req.body.email,
+        password: req.body.password
+    });
+
+    // User.getByEmail(newUser.email, (err, user) => {
+    //     if(err){
+    //         res.json({ success: false, message: 'failed to update user' });
+    //     } else if (user) {
+    //         res.json({ success: false, message: 'user with same email already exists' });
+    //     } else {
+    //         User.getById(req.user._id, (err, user) => {
+    //             if(err){
+    //                 res.json({ success: false, message: 'failed to update user' });
+    //             } else if (!user) {
+    //                 res.json({ success: false, message: 'failed to update. user not found' });
+    //             } else {
+    //                 User.updateUser(req.user._id, newUser, (err, upUser) => {
+    //                     if(err){
+    //                         res.json({ success: false, message: 'failed to update user' });
+    //                     } else {
+    //                         res.json({ success: true, message: 'user updated successfully' });
+    //                     }
+    //                 });
+    //             }
+    //         });
+    //     }
+    // });
+
+    User.updateUser(req.user._id, newUser, (err, upUser) => {
+        if(err){
+            res.json({ success: false, message: 'failed to update user' });
+        } else {
+            res.json({ success: true, message: 'user updated successfully' });
+        }
+    });
+});
+
 router.post('/authenticate', (req, res, next) => {
     var email = req.body.email;
     var password = req.body.password;
