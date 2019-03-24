@@ -49,6 +49,10 @@ app.get('*', (req, res, next) => {
     res.sendFile(path.join( __dirname, 'public/index.html'));
 });
 
+app.use((err, req, res, next) => {
+    res.status(500).send('Something went wrong, please try again later.');
+});
+
 app.listen(port, () => {
     console.log('server running on port ' + port);
 });

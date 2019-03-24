@@ -38,30 +38,6 @@ router.post('/update', passport.authenticate('jwt', { session: false }), (req, r
         password: req.body.password
     });
 
-    // User.getByEmail(newUser.email, (err, user) => {
-    //     if(err){
-    //         res.json({ success: false, message: 'failed to update user' });
-    //     } else if (user) {
-    //         res.json({ success: false, message: 'user with same email already exists' });
-    //     } else {
-    //         User.getById(req.user._id, (err, user) => {
-    //             if(err){
-    //                 res.json({ success: false, message: 'failed to update user' });
-    //             } else if (!user) {
-    //                 res.json({ success: false, message: 'failed to update. user not found' });
-    //             } else {
-    //                 User.updateUser(req.user._id, newUser, (err, upUser) => {
-    //                     if(err){
-    //                         res.json({ success: false, message: 'failed to update user' });
-    //                     } else {
-    //                         res.json({ success: true, message: 'user updated successfully' });
-    //                     }
-    //                 });
-    //             }
-    //         });
-    //     }
-    // });
-
     User.updateUser(req.user._id, newUser, (err, upUser) => {
         if(err){
             res.json({ success: false, message: 'failed to update user' });
@@ -74,6 +50,7 @@ router.post('/update', passport.authenticate('jwt', { session: false }), (req, r
 router.post('/authenticate', (req, res, next) => {
     var email = req.body.email;
     var password = req.body.password;
+    var isMobile = req.body.isMobile;
 
     User.getByEmail(email, (err, user) => {
         if(err){
@@ -89,10 +66,12 @@ router.post('/authenticate', (req, res, next) => {
                         name: user.name,
                         email: user.email
                     };
-                    var token = jwt.sign(userDetails, config.secret, {
-                        expiresIn: 3600
-                    });
-                    res.json({ success: true, token: token, user: userDetails, expiresIn: 3600 });
+                    var expiresIn = config.expiresIn;
+                    if (isMobile) {
+                        expiresIn = '3650d'; // 10 years
+                    }
+                    var token = jwt.sign(userDetails, config.secret, { expiresIn: expiresIn });
+                    res.json({ success: true, token: token, user: userDetails, expiresIn: expiresIn });
                 } else {
                     res.json({ success:false, message: 'incorrect password' });
                 }
